@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ASEAN Ltd · Intranet Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0D1F3C;--navy-2:#1A3056;--gold:#C9A84C;--gold-lt:#E8D5A0;
+  --teal:#1A7C78;--teal-lt:#E0F2F1;--bg:#F0F2F7;--white:#fff;
+  --border:#E2E6F0;--text:#1A2035;--text2:#4A5568;--text3:#8A97B0;
+  --sw:240px;--hh:60px;--r:10px;--rs:6px
+}
+html,body{height:100%;font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);font-size:14px}
+.app{display:flex;height:100vh;overflow:hidden}
+/* SIDEBAR */
+.sidebar{width:var(--sw);background:var(--navy);display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto}
+.sb-logo{padding:20px 20px 16px;border-bottom:1px solid rgba(255,255,255,.08)}
+.logo-name{font-family:'DM Serif Display',serif;font-size:19px;color:var(--gold);letter-spacing:.3px}
+.logo-sub{font-size:10px;color:rgba(255,255,255,.35);margin-top:3px;text-transform:uppercase;letter-spacing:1px}
+nav{padding:12px 8px;flex:1}
+.nav-sec{font-size:10px;color:rgba(255,255,255,.28);text-transform:uppercase;letter-spacing:1px;padding:12px 12px 5px}
+.ni{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--rs);cursor:pointer;transition:all .15s;color:rgba(255,255,255,.6);font-size:13px;margin-bottom:1px}
+.ni:hover{background:rgba(255,255,255,.07);color:rgba(255,255,255,.9)}
+.ni.active{background:var(--gold);color:var(--navy);font-weight:500}
+.ni svg{width:15px;height:15px;flex-shrink:0}
+.nbadge{margin-left:auto;background:rgba(255,255,255,.12);color:rgba(255,255,255,.6);font-size:11px;padding:1px 7px;border-radius:10px}
+.ni.active .nbadge{background:rgba(13,31,60,.2);color:var(--navy)}
+.sb-foot{padding:14px 16px;border-top:1px solid rgba(255,255,255,.08)}
+.ucard{display:flex;align-items:center;gap:10px}
+.uavatar{width:34px;height:34px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:var(--navy);flex-shrink:0}
+.uname{font-size:13px;color:rgba(255,255,255,.85);font-weight:500}
+.urole{font-size:11px;color:rgba(255,255,255,.38)}
+/* MAIN */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.header{height:var(--hh);background:var(--white);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 24px;gap:14px}
+.htitle{font-family:'DM Serif Display',serif;font-size:18px;color:var(--text);white-space:nowrap}
+.hsearch{flex:1;max-width:360px;position:relative}
+.hsearch input{width:100%;padding:7px 12px 7px 33px;border:1px solid var(--border);border-radius:20px;background:var(--bg);font-size:13px;color:var(--text);outline:none;font-family:inherit}
+.hsearch input:focus{border-color:var(--teal);background:#fff}
+.sico{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--text3);pointer-events:none}
+.hactions{margin-left:auto;display:flex;align-items:center;gap:8px}
+.content{flex:1;overflow-y:auto;padding:28px 32px}
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:5px;padding:7px 14px;border-radius:var(--rs);font-size:13px;font-weight:500;cursor:pointer;border:none;font-family:inherit;transition:all .15s;text-decoration:none}
+.btn-primary{background:var(--navy);color:#fff}.btn-primary:hover{background:var(--navy-2)}
+.btn-gold{background:var(--gold);color:var(--navy)}.btn-gold:hover{background:#b8932d}
+.btn-ghost{background:transparent;color:var(--text2);border:1px solid var(--border)}.btn-ghost:hover{background:var(--bg)}
+.btn-danger{background:#fee2e2;color:#b91c1c}.btn-danger:hover{background:#fecaca}
+.btn-sm{padding:5px 11px;font-size:12px}
+/* CARDS */
+.card{background:var(--white);border:1px solid var(--border);border-radius:var(--r);padding:20px}
+.card-sm{padding:14px 16px}
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:26px}
+.stat-card{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;border-left:4px solid transparent}
+.slabel{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.sval{font-size:28px;font-family:'DM Serif Display',serif;color:var(--text);line-height:1}
+.ssub{font-size:11px;color:var(--text3);margin-top:5px}
+/* SECTION HEADER */
+.sh{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;gap:10px}
+.sh-left h2{font-family:'DM Serif Display',serif;font-size:22px;color:var(--text)}
+.sh-left p{font-size:13px;color:var(--text3);margin-top:2px}
+/* NEWS */
+.news-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.nc{background:#fff;border:1px solid var(--border);border-radius:var(--r);overflow:hidden;transition:border-color .15s}
+.nc:hover{border-color:var(--teal)}
+.nc-bar{height:7px}
+.nc-body{padding:16px}
+.nc-tag{display:inline-block;font-size:11px;font-weight:500;padding:2px 9px;border-radius:10px;margin-bottom:8px}
+.nc-title{font-size:15px;font-weight:500;color:var(--text);line-height:1.4;margin-bottom:6px}
+.nc-sum{font-size:13px;color:var(--text2);line-height:1.55;margin-bottom:12px}
+.nc-meta{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text3)}
+.pin-b{background:#fef3c7;color:#92400e;padding:2px 7px;border-radius:10px;font-size:11px}
+/* DOCS */
+.folder-tabs{display:flex;gap:4px;margin-bottom:20px;flex-wrap:wrap}
+.ftab{padding:6px 14px;border-radius:20px;font-size:13px;cursor:pointer;border:1px solid var(--border);background:#fff;color:var(--text2);transition:all .15s}
+.ftab.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+.doc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(195px,1fr));gap:12px}
+.dc{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:16px;transition:border-color .15s}
+.dc:hover{border-color:var(--teal)}
+.dc-icon{width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:10px}
+.dc-name{font-size:13px;font-weight:500;color:var(--text);margin-bottom:4px;line-height:1.3;word-break:break-word}
+.dc-meta{font-size:11px;color:var(--text3)}
+/* DIRECTORY */
+.member-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:14px}
+.mc{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:20px 16px;text-align:center;transition:border-color .15s}
+.mc:hover{border-color:var(--teal)}
+.mavatar{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:600;margin:0 auto 12px;color:#fff}
+.mname{font-size:14px;font-weight:500;color:var(--text);margin-bottom:3px}
+.mrole{font-size:12px;color:var(--text3);margin-bottom:6px}
+.mdept{font-size:11px;padding:3px 10px;border-radius:10px;display:inline-block;margin-bottom:12px}
+.mc-btns{display:flex;gap:5px;justify-content:center}
+.cbtn{padding:5px 10px;border-radius:var(--rs);font-size:11px;font-weight:500;cursor:pointer;border:1px solid var(--border);background:var(--bg);color:var(--text2);transition:all .15s;text-decoration:none}
+.cbtn:hover{background:var(--teal);color:#fff;border-color:var(--teal)}
+/* CALENDAR */
+.cal-wrap{display:grid;grid-template-columns:1fr 1.35fr;gap:22px}
+.cal-grid{background:#fff;border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.cdh{display:grid;grid-template-columns:repeat(7,1fr);background:var(--bg)}
+.cdhl{text-align:center;padding:8px 2px;font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.5px}
+.cdates{display:grid;grid-template-columns:repeat(7,1fr)}
+.cdate{min-height:50px;padding:5px;border-top:1px solid var(--border);border-right:1px solid var(--border);cursor:pointer;transition:background .1s;position:relative}
+.cdate:hover{background:#f8f9fe}
+.cdate.om .dn{color:var(--text3);opacity:.35}
+.cdate.today .dn{background:var(--navy);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center}
+.cdate.hase::after{content:'';width:5px;height:5px;border-radius:50%;background:var(--gold);position:absolute;bottom:4px;right:5px}
+.dn{font-size:12px;font-weight:500;color:var(--text);line-height:22px}
+.ev-panel{display:flex;flex-direction:column;gap:10px;max-height:calc(100vh - 220px);overflow-y:auto}
+.ev-card{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:14px 16px}
+.ev-type{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}
+.ev-title{font-size:14px;font-weight:500;color:var(--text);margin-bottom:5px}
+.ev-detail{font-size:12px;color:var(--text3);line-height:1.7}
+/* WORKING GROUPS */
+.wg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px}
+.wc{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:20px}
+.wc-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.wst{font-size:11px;padding:3px 10px;border-radius:10px;font-weight:500}
+.wname{font-size:15px;font-weight:600;color:var(--text);margin-bottom:5px}
+.wdesc{font-size:13px;color:var(--text2);line-height:1.55;margin-bottom:12px}
+.wchair{font-size:12px;color:var(--text3);margin-bottom:10px}
+.wmembers{display:flex;margin-bottom:12px}
+.wma{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:#fff;border:2px solid #fff;margin-right:-8px}
+.wmmore{width:28px;height:28px;border-radius:50%;background:var(--bg);border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--text3)}
+.wact{font-size:12px;color:var(--text3);padding-top:12px;border-top:1px solid var(--border)}
+/* QUICK LINKS */
+.ql-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
+.qlc{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:18px 16px;cursor:pointer;transition:all .15s}
+.qlc:hover{border-color:var(--teal);transform:translateY(-1px)}
+.ql-ico{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:10px}
+.ql-name{font-size:13px;font-weight:500;color:var(--text);margin-bottom:3px}
+.ql-desc{font-size:12px;color:var(--text3)}
+/* TOOLBAR */
+.toolbar{display:flex;align-items:center;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+.toolbar input,.toolbar select{padding:7px 12px;border:1px solid var(--border);border-radius:var(--rs);font-size:13px;font-family:inherit;color:var(--text);outline:none;background:#fff}
+.toolbar input:focus,.toolbar select:focus{border-color:var(--teal)}
+.toolbar input{min-width:220px}
+/* MODAL */
+.modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px}
+.modal{background:#fff;border-radius:14px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.18)}
+.mh{padding:20px 24px 0;display:flex;align-items:center;justify-content:space-between}
+.mtitle{font-family:'DM Serif Display',serif;font-size:20px;color:var(--text)}
+.mb{padding:18px 24px}
+.mf{padding:12px 24px 20px;display:flex;gap:8px;justify-content:flex-end;border-top:1px solid var(--border);margin-top:6px}
+.fg{margin-bottom:15px}
+.fl{font-size:11px;font-weight:600;color:var(--text2);margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:.4px}
+.fi{width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:var(--rs);font-size:13px;font-family:inherit;color:var(--text);outline:none;transition:border-color .15s}
+.fi:focus{border-color:var(--teal)}
+textarea.fi{resize:vertical;min-height:75px}
+/* TOAST */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--navy);color:#fff;padding:11px 18px;border-radius:var(--r);font-size:13px;z-index:2000;display:flex;align-items:center;gap:8px;opacity:0;transform:translateY(8px);transition:all .3s;pointer-events:none}
+.toast.show{opacity:1;transform:translateY(0)}
+/* ANIM */
+.page{animation:fi .2s ease}
+@keyframes fi{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+/* SCROLL */
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+/* RESPONSIVE */
+@media(max-width:1024px){.stats-grid{grid-template-columns:repeat(2,1fr)}.cal-wrap{grid-template-columns:1fr}}
+@media(max-width:700px){.sidebar{width:200px}:root{--sw:200px}}
+/* PINNED */
+.pinned-bar{display:flex;flex-direction:column;gap:9px;margin-bottom:26px}
+.pb-item{background:#fff;border:1px solid var(--border);border-radius:var(--r);border-left:4px solid var(--gold);display:flex;align-items:center;gap:14px;padding:13px 16px;cursor:pointer}
+.pb-item:hover{border-color:var(--teal);border-left-color:var(--gold)}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sb-logo">
+    <div class="logo-name">ASEAN Ltd</div>
+    <div class="logo-sub">Intranet Portal</div>
+  </div>
+  <nav>
+    <div class="nav-sec">Main</div>
+    <div class="ni active" data-page="dashboard" onclick="go('dashboard',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      Dashboard
+    </div>
+    <div class="nav-sec">Sections</div>
+    <div class="ni" data-page="news" onclick="go('news',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 22h16a2 2 0 002-2V4a2 2 0 00-2-2H8a2 2 0 00-2 2v16a2 2 0 01-2 2zm0 0a2 2 0 01-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8M15 18h-5M10 6h8v4h-8z"/></svg>
+      News &amp; Announcements
+      <span class="nbadge" id="b-news">0</span>
+    </div>
+    <div class="ni" data-page="docs" onclick="go('docs',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+      Document Library
+      <span class="nbadge" id="b-docs">0</span>
+    </div>
+    <div class="ni" data-page="directory" onclick="go('directory',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+      Member Directory
+      <span class="nbadge" id="b-dir">0</span>
+    </div>
+    <div class="ni" data-page="calendar" onclick="go('calendar',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      Events Calendar
+      <span class="nbadge" id="b-cal">0</span>
+    </div>
+    <div class="ni" data-page="groups" onclick="go('groups',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+      Working Groups
+      <span class="nbadge" id="b-wg">0</span>
+    </div>
+    <div class="ni" data-page="links" onclick="go('links',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+      Quick Links
+      <span class="nbadge" id="b-links">0</span>
+    </div>
+  </nav>
+  <div class="sb-foot">
+    <div class="ucard">
+      <div class="uavatar">MR</div>
+      <div><div class="uname">Mithun Roy</div><div class="urole">Director</div></div>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+  <header class="header">
+    <span class="htitle" id="htitle">Dashboard</span>
+    <div class="hsearch">
+      <svg class="sico" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      <input type="text" placeholder="Search intranet…" id="gsearch" oninput="globalSearch(this.value)">
+    </div>
+    <div class="hactions">
+      <button class="btn btn-primary btn-sm" id="hadd" onclick="headerAdd()" style="display:none">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Add New
+      </button>
+    </div>
+  </header>
+  <div class="content" id="content"></div>
+</div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-ov" id="modal" style="display:none" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="mh">
+      <span class="mtitle" id="mtitle"></span>
+      <button onclick="closeModal()" style="background:transparent;border:none;font-size:20px;cursor:pointer;color:var(--text3);line-height:1">×</button>
+    </div>
+    <div class="mb" id="mbody"></div>
+    <div class="mf" id="mfoot"></div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ─────────────────────────────────────────────
+// DEFAULT DATA
+// ─────────────────────────────────────────────
+const DEFAULTS = {
+  news:[
+    {id:1,title:"Q2 2026 Regional Economic Outlook Published",cat:"Report",sum:"The latest quarterly economic outlook for ASEAN member states highlights strong GDP growth across Singapore, Vietnam, and Indonesia, with trade volumes up 8.4% year-on-year.",author:"Research Team",date:"2026-04-10",pinned:true,color:"#1A7C78"},
+    {id:2,title:"Annual General Meeting – Save the Date",cat:"Announcement",sum:"The Annual General Meeting for ASEAN Ltd will be held on 15 June 2026 at the Sydney Business Hub. All members are requested to confirm attendance by 1 June.",author:"Secretariat",date:"2026-04-08",pinned:true,color:"#C9A84C"},
+    {id:3,title:"New Trade Facilitation Framework Endorsed",cat:"Policy",sum:"The Council has formally endorsed the ASEAN–Australia Trade Facilitation Framework, paving the way for streamlined customs procedures and expanded joint market access.",author:"Policy Unit",date:"2026-04-03",pinned:false,color:"#0D1F3C"},
+    {id:4,title:"Welcome: Three New Corporate Members",cat:"Members",sum:"We warmly welcome Greenfield Capital Partners, TechBridge Solutions, and Pacific Trade Group as new corporate members of the ASEAN Economic Council.",author:"Membership Team",date:"2026-03-28",pinned:false,color:"#7c3aed"},
+    {id:5,title:"Staff Newsletter – April 2026",cat:"Internal",sum:"Read about team updates, upcoming training opportunities, the staff social calendar, and a profile on our newest team member joining the Sydney office.",author:"HR Team",date:"2026-04-01",pinned:false,color:"#db2777"}
+  ],
+  docs:[
+    {id:1,name:"ASEAN Ltd Constitution v3.2.pdf",type:"pdf",folder:"Governance",size:"1.2 MB",modified:"2026-01-15",author:"Secretariat"},
+    {id:2,name:"Board Meeting Minutes – March 2026.docx",type:"docx",folder:"Meeting Minutes",size:"340 KB",modified:"2026-03-21",author:"Company Secretary"},
+    {id:3,name:"Brand Guidelines 2026.pdf",type:"pdf",folder:"Templates",size:"4.8 MB",modified:"2026-02-10",author:"Marketing"},
+    {id:4,name:"Membership Agreement Template.docx",type:"docx",folder:"Templates",size:"88 KB",modified:"2026-01-05",author:"Legal"},
+    {id:5,name:"Annual Report 2025.pdf",type:"pdf",folder:"Reports",size:"6.1 MB",modified:"2026-03-01",author:"Finance"},
+    {id:6,name:"Q1 2026 Financial Summary.xlsx",type:"xlsx",folder:"Reports",size:"210 KB",modified:"2026-04-05",author:"Finance"},
+    {id:7,name:"Staff Handbook 2026.pdf",type:"pdf",folder:"HR & Policies",size:"900 KB",modified:"2026-01-20",author:"HR Team"},
+    {id:8,name:"Travel & Expenses Policy.docx",type:"docx",folder:"HR & Policies",size:"65 KB",modified:"2025-11-30",author:"Finance"},
+    {id:9,name:"AGM Agenda Draft – June 2026.docx",type:"docx",folder:"Meeting Minutes",size:"45 KB",modified:"2026-04-09",author:"Secretariat"},
+    {id:10,name:"Trade Data Dashboard Template.xlsx",type:"xlsx",folder:"Templates",size:"380 KB",modified:"2026-03-15",author:"Research Team"}
+  ],
+  members:[
+    {id:1,name:"Priya Sundaram",role:"Chief Executive Officer",dept:"Executive",email:"p.sundaram@aseanltd.com.au",phone:"+61 2 9XXX 0001",loc:"Sydney",ini:"PS",col:"#1A7C78"},
+    {id:2,name:"James Hartley",role:"Director of Policy",dept:"Policy",email:"j.hartley@aseanltd.com.au",phone:"+61 2 9XXX 0002",loc:"Sydney",ini:"JH",col:"#0D1F3C"},
+    {id:3,name:"Anh Nguyen",role:"Trade Relations Manager",dept:"Trade",email:"a.nguyen@aseanltd.com.au",phone:"+61 2 9XXX 0003",loc:"Melbourne",ini:"AN",col:"#C9A84C"},
+    {id:4,name:"Mithun Roy",role:"Director, ASEAN Economic Council",dept:"Executive",email:"m.roy@aseanltd.com.au",phone:"+61 2 9XXX 0004",loc:"Sydney",ini:"MR",col:"#7c3aed"},
+    {id:5,name:"Sarah Chen",role:"Head of Research",dept:"Research",email:"s.chen@aseanltd.com.au",phone:"+61 2 9XXX 0005",loc:"Sydney",ini:"SC",col:"#db2777"},
+    {id:6,name:"Rajiv Menon",role:"Finance Manager",dept:"Finance",email:"r.menon@aseanltd.com.au",phone:"+61 2 9XXX 0006",loc:"Brisbane",ini:"RM",col:"#ea580c"},
+    {id:7,name:"Lisa Park",role:"Events & Partnerships",dept:"Partnerships",email:"l.park@aseanltd.com.au",phone:"+61 2 9XXX 0007",loc:"Sydney",ini:"LP",col:"#0369a1"},
+    {id:8,name:"David Wijaya",role:"Digital Communications",dept:"Communications",email:"d.wijaya@aseanltd.com.au",phone:"+61 2 9XXX 0008",loc:"Sydney",ini:"DW",col:"#16a34a"}
+  ],
+  events:[
+    {id:1,title:"Board Strategy Session",date:"2026-04-18",time:"9:00 AM",loc:"Level 12, 1 Martin Place, Sydney",type:"Internal",org:"Secretariat",desc:"Quarterly board strategy and planning session. All board members required."},
+    {id:2,title:"ASEAN–Australia Business Forum",date:"2026-04-24",time:"8:30 AM",loc:"International Convention Centre, Sydney",type:"External",org:"Events Team",desc:"Annual flagship business forum with 300+ delegates from ASEAN member states and Australian industry."},
+    {id:3,title:"Working Group: Trade Policy Roundtable",date:"2026-05-07",time:"2:00 PM",loc:"Zoom + Sydney Office",type:"Working Group",org:"Policy Unit",desc:"Monthly roundtable for the Trade Policy Working Group. Hybrid format."},
+    {id:4,title:"New Member Induction",date:"2026-05-14",time:"10:00 AM",loc:"Sydney Office",type:"Internal",org:"Membership Team",desc:"Welcome session for the three new corporate members joining in April 2026."},
+    {id:5,title:"Annual General Meeting 2026",date:"2026-06-15",time:"10:00 AM",loc:"Sydney Business Hub, Darling Harbour",type:"External",org:"Secretariat",desc:"ASEAN Ltd Annual General Meeting. All members invited."},
+    {id:6,title:"Staff Quarterly Review",date:"2026-04-30",time:"3:00 PM",loc:"Sydney Office",type:"Internal",org:"HR Team",desc:"Q1 performance reviews and Q2 planning session for all staff."}
+  ],
+  groups:[
+    {id:1,name:"Trade Policy Working Group",desc:"Develops ASEAN Ltd policy positions on trade agreements, customs, and market access between Australia and ASEAN member states.",status:"Active",chair:"James Hartley",mems:["JH","AN","SC","MR"],count:8,activity:"Reviewed draft Trade Facilitation Framework – 3 Apr 2026",tag:"Policy"},
+    {id:2,name:"Digital Economy Committee",desc:"Explores opportunities in fintech, e-commerce, and digital infrastructure across the ASEAN–Australia corridor.",status:"Active",chair:"Sarah Chen",mems:["SC","DW","LP"],count:6,activity:"Published Digital Landscape Report – 28 Mar 2026",tag:"Technology"},
+    {id:3,name:"Investment & Finance Forum",desc:"Facilitates cross-border investment discussions and produces the quarterly capital flows briefing.",status:"Active",chair:"Mithun Roy",mems:["MR","RM","PS"],count:9,activity:"Q1 Capital Flows Briefing finalised – 5 Apr 2026",tag:"Finance"},
+    {id:4,name:"Sustainability & ESG Task Force",desc:"Advises on ESG standards alignment and green trade opportunities within ASEAN member states.",status:"Forming",chair:"Anh Nguyen",mems:["AN","SC"],count:4,activity:"Inaugural meeting scheduled – 20 Apr 2026",tag:"ESG"},
+    {id:5,name:"Events & Partnerships Committee",desc:"Coordinates the ASEAN Ltd events programme, sponsorships, and strategic partnerships.",status:"Active",chair:"Lisa Park",mems:["LP","DW","JH"],count:5,activity:"ASEAN–Australia Forum logistics confirmed – 8 Apr 2026",tag:"Events"}
+  ],
+  links:[
+    {id:1,name:"ASEAN Official Website",url:"https://asean.org",cat:"External",ico:"🌐",desc:"Official ASEAN Secretariat portal"},
+    {id:2,name:"DFAT Australia",url:"https://dfat.gov.au",cat:"Government",ico:"🏛️",desc:"Dept of Foreign Affairs & Trade"},
+    {id:3,name:"ABS Economic Data",url:"https://abs.gov.au",cat:"Data",ico:"📊",desc:"Australian Bureau of Statistics"},
+    {id:4,name:"Microsoft Teams",url:"https://teams.microsoft.com",cat:"Tools",ico:"💬",desc:"Team messaging and meetings"},
+    {id:5,name:"SharePoint Drive",url:"https://sharepoint.com",cat:"Tools",ico:"📁",desc:"Shared file storage and collaboration"},
+    {id:6,name:"HR Portal",url:"#",cat:"Internal",ico:"👥",desc:"Leave, payroll & HR requests"},
+    {id:7,name:"IT Help Desk",url:"#",cat:"Internal",ico:"🔧",desc:"Log IT support tickets"},
+    {id:8,name:"Travel Booking",url:"#",cat:"Internal",ico:"✈️",desc:"Book flights & accommodation"},
+    {id:9,name:"IBEF India Data",url:"https://ibef.org",cat:"Data",ico:"📈",desc:"India Brand Equity Foundation"},
+    {id:10,name:"World Bank Open Data",url:"https://data.worldbank.org",cat:"Data",ico:"🌍",desc:"Global development indicators"}
+  ]
+};
+
+// ─────────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────────
+let S = {};
+let page = 'dashboard';
+let calMonth = new Date(2026,3,1);
+let docFolder = 'All';
+let linkCat = '';
+let filters = {docQ:'',dirQ:'',dirDept:'All',newsQ:''};
+
+// ─────────────────────────────────────────────
+// STORAGE
+// ─────────────────────────────────────────────
+async function load(){
+  try{
+    const r = await window.storage.get('asean-intranet-v1');
+    S = r && r.value ? JSON.parse(r.value) : deepCopy(DEFAULTS);
+    if(!r||!r.value) await save();
+  }catch(e){ S = deepCopy(DEFAULTS); }
+  badges(); render();
+}
+async function save(){ try{ await window.storage.set('asean-intranet-v1',JSON.stringify(S)); }catch(e){} }
+function deepCopy(o){ return JSON.parse(JSON.stringify(o)); }
+
+// ─────────────────────────────────────────────
+// NAV
+// ─────────────────────────────────────────────
+const TITLES = {dashboard:'Dashboard',news:'News & Announcements',docs:'Document Library',directory:'Member Directory',calendar:'Events Calendar',groups:'Working Groups',links:'Quick Links'};
+
+function go(p, el){
+  page = p;
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));
+  if(el) el.classList.add('active');
+  else document.querySelector(`[data-page="${p}"]`).classList.add('active');
+  document.getElementById('htitle').textContent = TITLES[p];
+  document.getElementById('hadd').style.display = p==='dashboard' ? 'none' : '';
+  filters = {docQ:'',dirQ:'',dirDept:'All',newsQ:''};
+  docFolder='All'; linkCat='';
+  render();
+}
+
+function render(){
+  const c = document.getElementById('content');
+  c.innerHTML=''; c.className='content page';
+  ({dashboard:rDash,news:rNews,docs:rDocs,directory:rDir,calendar:rCal,groups:rGroups,links:rLinks})[page]();
+}
+
+function headerAdd(){
+  ({news:addNews,docs:addDoc,directory:addMem,calendar:addEvent,groups:addGroup,links:addLink})[page]();
+}
+
+function badges(){
+  if(!S.news) return;
+  document.getElementById('b-news').textContent = S.news.length;
+  document.getElementById('b-docs').textContent = S.docs.length;
+  document.getElementById('b-dir').textContent  = S.members.length;
+  document.getElementById('b-cal').textContent  = S.events.length;
+  document.getElementById('b-wg').textContent   = S.groups.length;
+  document.getElementById('b-links').textContent= S.links.length;
+}
+
+// ─────────────────────────────────────────────
+// DASHBOARD
+// ─────────────────────────────────────────────
+function rDash(){
+  const today = new Date('2026-04-16');
+  const upcoming = [...S.events].sort((a,b)=>new Date(a.date)-new Date(b.date)).filter(e=>new Date(e.date)>=today).slice(0,4);
+  const recent  = [...S.news].sort((a,b)=>new Date(b.date)-new Date(a.date)).slice(0,4);
+  const pinned  = S.news.filter(n=>n.pinned);
+  const activeGroups = S.groups.filter(g=>g.status==='Active').length;
+  const c = document.getElementById('content');
+
+  c.innerHTML = `
+  <div class="stats-grid">
+    ${sc(S.members.length,'Staff & Members','#1A7C78','↑ 3 this month')}
+    ${sc(S.docs.length,'Documents','#C9A84C','Across 5 folders')}
+    ${sc(S.events.filter(e=>new Date(e.date)>=today).length,'Upcoming Events','#0D1F3C','In the next 90 days')}
+    ${sc(activeGroups,'Active Working Groups','#7c3aed',S.groups.length+' groups total')}
+  </div>
+
+  ${pinned.length?`
+  <div class="sh"><div class="sh-left"><h2>Pinned</h2></div></div>
+  <div class="pinned-bar">${pinned.map(n=>`
+    <div class="pb-item" style="border-left-color:${n.color}" onclick="go('news')">
+      <div style="flex:1">
+        <div style="font-weight:500;font-size:14px">${n.title}</div>
+        <div style="font-size:12px;color:var(--text3);margin-top:2px">${n.author} · ${fd(n.date)}</div>
+      </div>
+      <span class="pin-b">📌 Pinned</span>
+    </div>`).join('')}
+  </div>`:``}
+
+  <div style="display:grid;grid-template-columns:1.6fr 1fr;gap:24px">
+    <div>
+      <div class="sh"><div class="sh-left"><h2>Recent News</h2></div><button class="btn btn-ghost btn-sm" onclick="go('news')">View all →</button></div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        ${recent.map(n=>`
+          <div class="card card-sm" style="cursor:pointer;border-left:3px solid ${n.color}" onclick="go('news')">
+            <span class="nc-tag" style="background:${n.color}22;color:${n.color}">${n.cat}</span>
+            <div style="font-weight:500;font-size:14px;margin-bottom:3px">${n.title}</div>
+            <div style="font-size:12px;color:var(--text3)">${n.author} · ${fd(n.date)}</div>
+          </div>`).join('')}
+      </div>
+    </div>
+    <div>
+      <div class="sh"><div class="sh-left"><h2>Upcoming Events</h2></div><button class="btn btn-ghost btn-sm" onclick="go('calendar')">View all →</button></div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        ${upcoming.map(e=>`
+          <div class="card card-sm">
+            <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:${tc(e.type)};margin-bottom:4px">${fds(e.date)} · ${e.type}</div>
+            <div style="font-weight:500;font-size:13px;margin-bottom:3px">${e.title}</div>
+            <div style="font-size:12px;color:var(--text3)">${e.time} · ${e.loc.split(',')[0]}</div>
+          </div>`).join('')}
+        ${upcoming.length===0?'<div style="color:var(--text3);font-size:13px;padding:10px 0">No upcoming events</div>':''}
+      </div>
+    </div>
+  </div>`;
+}
+
+function sc(v,l,col,sub){
+  return `<div class="stat-card" style="border-left-color:${col}"><div class="slabel">${l}</div><div class="sval">${v}</div><div class="ssub">${sub}</div></div>`;
+}
+
+// ─────────────────────────────────────────────
+// NEWS
+// ─────────────────────────────────────────────
+function rNews(){
+  const q = filters.newsQ.toLowerCase();
+  const items = S.news.filter(n=>!q||n.title.toLowerCase().includes(q)||n.cat.toLowerCase().includes(q)||n.sum.toLowerCase().includes(q));
+  const cats = ['All',...new Set(S.news.map(n=>n.cat))];
+  document.getElementById('content').innerHTML = `
+    <div class="toolbar">
+      <input type="text" placeholder="Search announcements…" value="${filters.newsQ}" oninput="filters.newsQ=this.value;rNews()">
+      <select onchange="filters.newsCat=this.value;rNews()" style="cursor:pointer">
+        ${cats.map(c=>`<option>${c}</option>`).join('')}
+      </select>
+    </div>
+    <div class="news-grid">
+      ${items.map(n=>`
+        <div class="nc">
+          <div class="nc-bar" style="background:${n.color}"></div>
+          <div class="nc-body">
+            ${n.pinned?'<span class="pin-b" style="margin-bottom:8px;display:inline-block">📌 Pinned</span>':''}
+            <span class="nc-tag" style="background:${n.color}22;color:${n.color}">${n.cat}</span>
+            <div class="nc-title">${n.title}</div>
+            <div class="nc-sum">${n.sum}</div>
+            <div class="nc-meta">
+              <span>${n.author}</span><span>·</span><span>${fd(n.date)}</span>
+              <button class="btn btn-ghost btn-sm" style="margin-left:auto" onclick="editNews(${n.id})">Edit</button>
+              <button class="btn btn-danger btn-sm" onclick="del('news',${n.id})">Delete</button>
+            </div>
+          </div>
+        </div>`).join('')}
+      ${items.length===0?'<div style="grid-column:1/-1;text-align:center;padding:48px;color:var(--text3)">No announcements match your search.</div>':''}
+    </div>`;
+}
+
+function addNews(){
+  modal('Add Announcement',`
+    <div class="fg"><label class="fl">Title</label><input class="fi" id="f1" placeholder="Announcement title"></div>
+    <div class="fg"><label class="fl">Category</label><select class="fi" id="f2"><option>Announcement</option><option>Report</option><option>Policy</option><option>Members</option><option>Internal</option><option>News</option></select></div>
+    <div class="fg"><label class="fl">Summary</label><textarea class="fi" id="f3" placeholder="Brief summary…"></textarea></div>
+    <div class="fg"><label class="fl">Author</label><input class="fi" id="f4" placeholder="Team or person"></div>
+    <div class="fg" style="display:flex;align-items:center;gap:8px"><input type="checkbox" id="f5" style="width:auto"><label for="f5" style="font-size:13px;cursor:pointer">Pin this announcement</label></div>
+  `,()=>{
+    const cols=['#1A7C78','#C9A84C','#0D1F3C','#7c3aed','#db2777','#ea580c','#0369a1'];
+    S.news.unshift({id:Date.now(),title:gv('f1')||'New Announcement',cat:gv('f2'),sum:gv('f3')||'',author:gv('f4')||'Staff',date:'2026-04-16',pinned:!!document.getElementById('f5').checked,color:cols[Math.floor(Math.random()*cols.length)]});
+    save();badges();rNews();closeModal();toast('Announcement added');
+  });
+}
+
+function editNews(id){
+  const n=S.news.find(x=>x.id===id);if(!n)return;
+  modal('Edit Announcement',`
+    <div class="fg"><label class="fl">Title</label><input class="fi" id="f1" value="${esc(n.title)}"></div>
+    <div class="fg"><label class="fl">Category</label><select class="fi" id="f2">${['Announcement','Report','Policy','Members','Internal','News'].map(c=>`<option${n.cat===c?' selected':''}>${c}</option>`).join('')}</select></div>
+    <div class="fg"><label class="fl">Summary</label><textarea class="fi" id="f3">${esc(n.sum)}</textarea></div>
+    <div class="fg"><label class="fl">Author</label><input class="fi" id="f4" value="${esc(n.author)}"></div>
+    <div class="fg" style="display:flex;align-items:center;gap:8px"><input type="checkbox" id="f5" style="width:auto"${n.pinned?' checked':''}><label for="f5" style="font-size:13px;cursor:pointer">Pin this announcement</label></div>
+  `,()=>{
+    n.title=gv('f1');n.cat=gv('f2');n.sum=gv('f3');n.author=gv('f4');n.pinned=!!document.getElementById('f5').checked;
+    save();rNews();closeModal();toast('Announcement updated');
+  });
+}
+
+// ─────────────────────────────────────────────
+// DOCUMENTS
+// ─────────────────────────────────────────────
+const DTYPE = {pdf:{ico:'📄',bg:'#fee2e2',fg:'#b91c1c'},docx:{ico:'📝',bg:'#dbeafe',fg:'#1d4ed8'},xlsx:{ico:'📊',bg:'#dcfce7',fg:'#15803d'},pptx:{ico:'📋',bg:'#fef3c7',fg:'#92400e'}};
+
+function rDocs(){
+  const folders=['All',...new Set(S.docs.map(d=>d.folder))];
+  const items=S.docs.filter(d=>(docFolder==='All'||d.folder===docFolder)&&(!filters.docQ||d.name.toLowerCase().includes(filters.docQ.toLowerCase())));
+  document.getElementById('content').innerHTML=`
+    <div class="toolbar">
+      <input type="text" placeholder="Search documents…" value="${filters.docQ}" oninput="filters.docQ=this.value;rDocs()">
+    </div>
+    <div class="folder-tabs">
+      ${folders.map(f=>`<div class="ftab${docFolder===f?' active':''}" onclick="docFolder='${f}';rDocs()">${f} (${f==='All'?S.docs.length:S.docs.filter(d=>d.folder===f).length})</div>`).join('')}
+    </div>
+    <div class="doc-grid">
+      ${items.map(d=>{const t=DTYPE[d.type]||{ico:'📎',bg:'#f3f4f6',fg:'#6b7280'};return`
+        <div class="dc">
+          <div class="dc-icon" style="background:${t.bg}">${t.ico}</div>
+          <div class="dc-name">${d.name}</div>
+          <div class="dc-meta">${d.size} · ${fd(d.modified)}</div>
+          <div class="dc-meta" style="margin-top:2px">By ${d.author}</div>
+          <div style="margin-top:10px;display:flex;gap:5px">
+            <button class="btn btn-ghost btn-sm" style="flex:1;justify-content:center" onclick="editDoc(${d.id})">Edit</button>
+            <button class="btn btn-danger btn-sm" onclick="del('docs',${d.id})">✕</button>
+          </div>
+        </div>`}).join('')}
+      ${items.length===0?'<div style="grid-column:1/-1;text-align:center;padding:48px;color:var(--text3)">No documents found.</div>':''}
+    </div>`;
+}
+
+function addDoc(){
+  const folderOpts = [...new Set(S.docs.map(d=>d.folder))].map(f=>`<option>${f}</option>`).join('');
+  modal('Add Document',`
+    <div class="fg"><label class="fl">Document Name</label><input class="fi" id="f1" placeholder="filename.pdf"></div>
+    <div class="fg"><label class="fl">Type</label><select class="fi" id="f2"><option value="pdf">PDF</option><option value="docx">Word (.docx)</option><option value="xlsx">Excel (.xlsx)</option><option value="pptx">PowerPoint</option></select></div>
+    <div class="fg"><label class="fl">Folder</label><select class="fi" id="f3">${folderOpts}<option>New Folder</option></select></div>
+    <div class="fg"><label class="fl">Author</label><input class="fi" id="f4" placeholder="Team or person"></div>
+    <div class="fg"><label class="fl">File Size</label><input class="fi" id="f5" placeholder="e.g. 2.4 MB"></div>
+  `,()=>{
+    S.docs.push({id:Date.now(),name:gv('f1')||'New Document',type:gv('f2'),folder:gv('f3'),size:gv('f5')||'—',modified:'2026-04-16',author:gv('f4')||'Staff'});
+    save();badges();rDocs();closeModal();toast('Document added');
+  });
+}
+
+function editDoc(id){
+  const d=S.docs.find(x=>x.id===id);if(!d)return;
+  modal('Edit Document',`
+    <div class="fg"><label class="fl">Document Name</label><input class="fi" id="f1" value="${esc(d.name)}"></div>
+    <div class="fg"><label class="fl">Folder</label><input class="fi" id="f2" value="${esc(d.folder)}"></div>
+    <div class="fg"><label class="fl">Author</label><input class="fi" id="f3" value="${esc(d.author)}"></div>
+  `,()=>{
+    d.name=gv('f1');d.folder=gv('f2');d.author=gv('f3');
+    save();rDocs();closeModal();toast('Document updated');
+  });
+}
+
+// ─────────────────────────────────────────────
+// DIRECTORY
+// ─────────────────────────────────────────────
+function rDir(){
+  const depts=['All',...new Set(S.members.map(m=>m.dept))];
+  const items=S.members.filter(m=>(!filters.dirQ||m.name.toLowerCase().includes(filters.dirQ.toLowerCase())||m.role.toLowerCase().includes(filters.dirQ.toLowerCase()))&&(filters.dirDept==='All'||m.dept===filters.dirDept));
+  document.getElementById('content').innerHTML=`
+    <div class="toolbar">
+      <input type="text" placeholder="Search by name or role…" value="${filters.dirQ}" oninput="filters.dirQ=this.value;rDir()">
+      <select onchange="filters.dirDept=this.value;rDir()">
+        ${depts.map(d=>`<option value="${d}"${filters.dirDept===d?' selected':''}>${d}</option>`).join('')}
+      </select>
+    </div>
+    <div class="member-grid">
+      ${items.map(m=>`
+        <div class="mc">
+          <div class="mavatar" style="background:${m.col}">${m.ini}</div>
+          <div class="mname">${m.name}</div>
+          <div class="mrole">${m.role}</div>
+          <span class="mdept" style="background:${m.col}22;color:${m.col}">${m.dept}</span>
+          <div class="mc-btns">
+            <a href="mailto:${m.email}" class="cbtn">Email</a>
+            <button class="cbtn" onclick="editMem(${m.id})">Edit</button>
+            <button class="cbtn" style="border-color:#fca5a5;color:#b91c1c" onclick="del('members',${m.id})">Remove</button>
+          </div>
+          <div style="font-size:11px;color:var(--text3);margin-top:9px">📍 ${m.loc}</div>
+        </div>`).join('')}
+      ${items.length===0?'<div style="grid-column:1/-1;text-align:center;padding:48px;color:var(--text3)">No members found.</div>':''}
+    </div>`;
+}
+
+function addMem(){
+  const cols=['#1A7C78','#C9A84C','#0D1F3C','#7c3aed','#db2777','#ea580c','#0369a1','#16a34a'];
+  modal('Add Member',`
+    <div class="fg"><label class="fl">Full Name</label><input class="fi" id="f1" placeholder="First Last"></div>
+    <div class="fg"><label class="fl">Role / Title</label><input class="fi" id="f2" placeholder="Job title"></div>
+    <div class="fg"><label class="fl">Department</label><select class="fi" id="f3">${['Executive','Policy','Trade','Research','Finance','Partnerships','Communications','HR'].map(d=>`<option>${d}</option>`).join('')}</select></div>
+    <div class="fg"><label class="fl">Email</label><input class="fi" id="f4" type="email" placeholder="email@aseanltd.com.au"></div>
+    <div class="fg"><label class="fl">Location</label><input class="fi" id="f5" placeholder="City"></div>
+  `,()=>{
+    const nm=gv('f1')||'New Member';
+    const ini=nm.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+    S.members.push({id:Date.now(),name:nm,role:gv('f2')||'Staff',dept:gv('f3'),email:gv('f4')||'',phone:'',loc:gv('f5')||'Sydney',ini,col:cols[S.members.length%cols.length]});
+    save();badges();rDir();closeModal();toast('Member added');
+  });
+}
+
+function editMem(id){
+  const m=S.members.find(x=>x.id===id);if(!m)return;
+  modal('Edit Member',`
+    <div class="fg"><label class="fl">Full Name</label><input class="fi" id="f1" value="${esc(m.name)}"></div>
+    <div class="fg"><label class="fl">Role</label><input class="fi" id="f2" value="${esc(m.role)}"></div>
+    <div class="fg"><label class="fl">Email</label><input class="fi" id="f3" type="email" value="${esc(m.email)}"></div>
+    <div class="fg"><label class="fl">Location</label><input class="fi" id="f4" value="${esc(m.loc)}"></div>
+  `,()=>{
+    m.name=gv('f1');m.role=gv('f2');m.email=gv('f3');m.loc=gv('f4');
+    m.ini=m.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+    save();rDir();closeModal();toast('Member updated');
+  });
+}
+
+// ─────────────────────────────────────────────
+// CALENDAR
+// ─────────────────────────────────────────────
+function rCal(){
+  const y=calMonth.getFullYear(), mo=calMonth.getMonth();
+  const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const fd0=new Date(y,mo,1).getDay();
+  const dim=new Date(y,mo+1,0).getDate();
+  const dipm=new Date(y,mo,0).getDate();
+  const start=(fd0===0?6:fd0-1);
+  const today='2026-04-16';
+  const evMo=S.events.filter(e=>{const d=new Date(e.date);return d.getFullYear()===y&&d.getMonth()===mo});
+  let cells='';
+  for(let i=start;i>0;i--) cells+=`<div class="cdate om"><span class="dn">${dipm-i+1}</span></div>`;
+  for(let d=1;d<=dim;d++){
+    const ds=`${y}-${String(mo+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const he=evMo.some(e=>e.date===ds);
+    cells+=`<div class="cdate${ds===today?' today':''}${he?' hase':''}"><span class="dn">${d}</span></div>`;
+  }
+  for(let d=1;d<=(42-(start+dim));d++) cells+=`<div class="cdate om"><span class="dn">${d}</span></div>`;
+  const sorted=[...S.events].sort((a,b)=>new Date(a.date)-new Date(b.date));
+  document.getElementById('content').innerHTML=`
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:22px">
+      <div style="display:flex;gap:4px">
+        <button onclick="calNav(-1)" style="width:30px;height:30px;border:1px solid var(--border);background:#fff;border-radius:var(--rs);cursor:pointer;font-size:15px;color:var(--text2)">‹</button>
+        <button onclick="calNav(1)" style="width:30px;height:30px;border:1px solid var(--border);background:#fff;border-radius:var(--rs);cursor:pointer;font-size:15px;color:var(--text2)">›</button>
+      </div>
+      <span style="font-family:'DM Serif Display',serif;font-size:20px">${MONTHS[mo]} ${y}</span>
+      <button class="btn btn-ghost btn-sm" onclick="calMonth=new Date(2026,3,1);rCal()">Today</button>
+    </div>
+    <div class="cal-wrap">
+      <div class="cal-grid">
+        <div class="cdh">${['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map(d=>`<div class="cdhl">${d}</div>`).join('')}</div>
+        <div class="cdates">${cells}</div>
+      </div>
+      <div class="ev-panel">
+        <div style="font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">All Events</div>
+        ${sorted.map(e=>`
+          <div class="ev-card">
+            <div class="ev-type" style="color:${tc(e.type)}">${e.type} · ${fds(e.date)}</div>
+            <div class="ev-title">${e.title}</div>
+            <div class="ev-detail">🕐 ${e.time}<br>📍 ${e.loc}<br>👤 ${e.org}</div>
+            <div style="display:flex;gap:6px;margin-top:10px">
+              <button class="btn btn-ghost btn-sm" onclick="editEv(${e.id})">Edit</button>
+              <button class="btn btn-danger btn-sm" onclick="del('events',${e.id})">Delete</button>
+            </div>
+          </div>`).join('')}
+        ${sorted.length===0?'<div style="text-align:center;padding:30px;color:var(--text3)">No events scheduled.</div>':''}
+      </div>
+    </div>`;
+}
+
+function calNav(d){ calMonth=new Date(calMonth.getFullYear(),calMonth.getMonth()+d,1);rCal(); }
+
+function addEvent(){
+  modal('Add Event',`
+    <div class="fg"><label class="fl">Event Title</label><input class="fi" id="f1" placeholder="Event name"></div>
+    <div class="fg"><label class="fl">Date</label><input class="fi" id="f2" type="date" value="2026-04-16"></div>
+    <div class="fg"><label class="fl">Time</label><input class="fi" id="f3" placeholder="e.g. 9:00 AM"></div>
+    <div class="fg"><label class="fl">Location</label><input class="fi" id="f4" placeholder="Venue or Zoom"></div>
+    <div class="fg"><label class="fl">Type</label><select class="fi" id="f5"><option>Internal</option><option>External</option><option>Working Group</option></select></div>
+    <div class="fg"><label class="fl">Organiser</label><input class="fi" id="f6" placeholder="Team or person"></div>
+    <div class="fg"><label class="fl">Description</label><textarea class="fi" id="f7" placeholder="Brief description…"></textarea></div>
+  `,()=>{
+    S.events.push({id:Date.now(),title:gv('f1')||'New Event',date:gv('f2')||'2026-04-16',time:gv('f3')||'TBC',loc:gv('f4')||'TBC',type:gv('f5'),org:gv('f6')||'Staff',desc:gv('f7')||''});
+    save();badges();rCal();closeModal();toast('Event added');
+  });
+}
+
+function editEv(id){
+  const e=S.events.find(x=>x.id===id);if(!e)return;
+  modal('Edit Event',`
+    <div class="fg"><label class="fl">Event Title</label><input class="fi" id="f1" value="${esc(e.title)}"></div>
+    <div class="fg"><label class="fl">Date</label><input class="fi" id="f2" type="date" value="${e.date}"></div>
+    <div class="fg"><label class="fl">Time</label><input class="fi" id="f3" value="${esc(e.time)}"></div>
+    <div class="fg"><label class="fl">Location</label><input class="fi" id="f4" value="${esc(e.loc)}"></div>
+    <div class="fg"><label class="fl">Organiser</label><input class="fi" id="f5" value="${esc(e.org)}"></div>
+    <div class="fg"><label class="fl">Description</label><textarea class="fi" id="f6">${esc(e.desc)}</textarea></div>
+  `,()=>{
+    e.title=gv('f1');e.date=gv('f2');e.time=gv('f3');e.loc=gv('f4');e.org=gv('f5');e.desc=gv('f6');
+    save();rCal();closeModal();toast('Event updated');
+  });
+}
+
+// ─────────────────────────────────────────────
+// WORKING GROUPS
+// ─────────────────────────────────────────────
+const WSTYLE={Active:'background:#dcfce7;color:#15803d',Forming:'background:#fef3c7;color:#92400e',Inactive:'background:#f3f4f6;color:#6b7280'};
+const WCOLS=['#1A7C78','#C9A84C','#0D1F3C','#7c3aed','#db2777'];
+
+function rGroups(){
+  document.getElementById('content').innerHTML=`
+    <div class="wg-grid">
+      ${S.groups.map(g=>`
+        <div class="wc">
+          <div class="wc-head">
+            <span class="wst" style="${WSTYLE[g.status]||''}">${g.status}</span>
+            <div style="display:flex;gap:4px">
+              <button class="btn btn-ghost btn-sm" onclick="editGroup(${g.id})">Edit</button>
+              <button class="btn btn-danger btn-sm" onclick="del('groups',${g.id})">✕</button>
+            </div>
+          </div>
+          <div class="wname">${g.name}</div>
+          <div class="wdesc">${g.desc}</div>
+          <div class="wchair">🎓 Chair: <strong>${g.chair}</strong></div>
+          <div class="wmembers">
+            ${g.mems.map((m,i)=>`<div class="wma" style="background:${WCOLS[i%WCOLS.length]};z-index:${10-i}">${m}</div>`).join('')}
+            ${g.count>g.mems.length?`<div class="wmmore">+${g.count-g.mems.length}</div>`:''}
+          </div>
+          <div style="margin-bottom:10px"><span style="font-size:11px;padding:3px 9px;border-radius:4px;background:#EEF2FF;color:#4338ca">${g.tag}</span></div>
+          <div class="wact">💬 ${g.activity}</div>
+        </div>`).join('')}
+    </div>`;
+}
+
+function addGroup(){
+  modal('Add Working Group',`
+    <div class="fg"><label class="fl">Group Name</label><input class="fi" id="f1" placeholder="Working group name"></div>
+    <div class="fg"><label class="fl">Description</label><textarea class="fi" id="f2" placeholder="What does this group do?"></textarea></div>
+    <div class="fg"><label class="fl">Chair</label><input class="fi" id="f3" placeholder="Name of chair"></div>
+    <div class="fg"><label class="fl">Status</label><select class="fi" id="f4"><option>Active</option><option>Forming</option><option>Inactive</option></select></div>
+    <div class="fg"><label class="fl">Tag / Category</label><input class="fi" id="f5" placeholder="e.g. Policy, Finance, ESG"></div>
+  `,()=>{
+    S.groups.push({id:Date.now(),name:gv('f1')||'New Group',desc:gv('f2')||'',status:gv('f4'),chair:gv('f3')||'TBC',mems:[],count:0,activity:'Group created – 16 Apr 2026',tag:gv('f5')||'General'});
+    save();badges();rGroups();closeModal();toast('Working group added');
+  });
+}
+
+function editGroup(id){
+  const g=S.groups.find(x=>x.id===id);if(!g)return;
+  modal('Edit Working Group',`
+    <div class="fg"><label class="fl">Group Name</label><input class="fi" id="f1" value="${esc(g.name)}"></div>
+    <div class="fg"><label class="fl">Description</label><textarea class="fi" id="f2">${esc(g.desc)}</textarea></div>
+    <div class="fg"><label class="fl">Chair</label><input class="fi" id="f3" value="${esc(g.chair)}"></div>
+    <div class="fg"><label class="fl">Status</label><select class="fi" id="f4">${['Active','Forming','Inactive'].map(s=>`<option${g.status===s?' selected':''}>${s}</option>`).join('')}</select></div>
+    <div class="fg"><label class="fl">Recent Activity</label><input class="fi" id="f5" value="${esc(g.activity)}"></div>
+  `,()=>{
+    g.name=gv('f1');g.desc=gv('f2');g.chair=gv('f3');g.status=gv('f4');g.activity=gv('f5');
+    save();rGroups();closeModal();toast('Working group updated');
+  });
+}
+
+// ─────────────────────────────────────────────
+// QUICK LINKS
+// ─────────────────────────────────────────────
+const LCATS={External:'#EEF2FF:#4338ca',Government:'#F0FDF4:#15803d',Data:'#FEF3C7:#92400e',Tools:'#F0F9FF:#0369a1',Internal:'#FDF4FF:#7e22ce'};
+
+function rLinks(){
+  const cats=['All',...new Set(S.links.map(l=>l.cat))];
+  const items=S.links.filter(l=>!linkCat||l.cat===linkCat);
+  document.getElementById('content').innerHTML=`
+    <div class="folder-tabs" style="margin-bottom:20px">
+      ${cats.map(c=>`<div class="ftab${(!linkCat&&c==='All')||linkCat===c?' active':''}" onclick="linkCat='${c==='All'?'':c}';rLinks()">${c}</div>`).join('')}
+    </div>
+    <div class="ql-grid">
+      ${items.map(l=>{
+        const [bg,fg]=(LCATS[l.cat]||'#F3F4F6:#6B7280').split(':');
+        return`<div class="qlc" onclick="window.open('${l.url}','_blank')">
+          <div class="ql-ico" style="background:${bg}">${l.ico}</div>
+          <div class="ql-name">${l.name}</div>
+          <div class="ql-desc">${l.desc}</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:9px">
+            <span style="font-size:11px;padding:2px 7px;border-radius:4px;background:${bg};color:${fg}">${l.cat}</span>
+            <div style="display:flex;gap:4px">
+              <button class="btn btn-ghost btn-sm" style="padding:2px 8px" onclick="event.stopPropagation();editLink(${l.id})">✎</button>
+              <button class="btn btn-danger btn-sm" style="padding:2px 8px" onclick="event.stopPropagation();del('links',${l.id})">✕</button>
+            </div>
+          </div>
+        </div>`}).join('')}
+    </div>`;
+}
+
+function addLink(){
+  modal('Add Quick Link',`
+    <div class="fg"><label class="fl">Name</label><input class="fi" id="f1" placeholder="Link display name"></div>
+    <div class="fg"><label class="fl">URL</label><input class="fi" id="f2" placeholder="https://…"></div>
+    <div class="fg"><label class="fl">Description</label><input class="fi" id="f3" placeholder="Brief description"></div>
+    <div class="fg"><label class="fl">Category</label><select class="fi" id="f4"><option>External</option><option>Government</option><option>Data</option><option>Tools</option><option>Internal</option></select></div>
+    <div class="fg"><label class="fl">Icon (emoji)</label><input class="fi" id="f5" placeholder="🌐" maxlength="2"></div>
+  `,()=>{
+    S.links.push({id:Date.now(),name:gv('f1')||'New Link',url:gv('f2')||'#',cat:gv('f4'),ico:gv('f5')||'🔗',desc:gv('f3')||''});
+    save();badges();rLinks();closeModal();toast('Link added');
+  });
+}
+
+function editLink(id){
+  const l=S.links.find(x=>x.id===id);if(!l)return;
+  modal('Edit Link',`
+    <div class="fg"><label class="fl">Name</label><input class="fi" id="f1" value="${esc(l.name)}"></div>
+    <div class="fg"><label class="fl">URL</label><input class="fi" id="f2" value="${esc(l.url)}"></div>
+    <div class="fg"><label class="fl">Description</label><input class="fi" id="f3" value="${esc(l.desc)}"></div>
+    <div class="fg"><label class="fl">Icon</label><input class="fi" id="f4" value="${l.ico}" maxlength="2"></div>
+  `,()=>{
+    l.name=gv('f1');l.url=gv('f2');l.desc=gv('f3');l.ico=gv('f4');
+    save();rLinks();closeModal();toast('Link updated');
+  });
+}
+
+// ─────────────────────────────────────────────
+// UTILS
+// ─────────────────────────────────────────────
+function del(col,id){
+  if(!confirm('Delete this item?'))return;
+  S[col]=S[col].filter(x=>x.id!==id);
+  save();badges();render();toast('Item deleted');
+}
+
+function tc(type){return{Internal:'#1A7C78',External:'#C9A84C','Working Group':'#7c3aed'}[type]||'#0D1F3C'}
+
+function fd(s){return new Date(s+'T00:00:00').toLocaleDateString('en-AU',{day:'numeric',month:'short',year:'numeric'})}
+function fds(s){return new Date(s+'T00:00:00').toLocaleDateString('en-AU',{day:'numeric',month:'short'})}
+
+function gv(id){const e=document.getElementById(id);return e?e.value.trim():''}
+function esc(s){return(s||'').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+
+function globalSearch(q){
+  if(!q.trim())return;
+  // Simple: filter across all sections on next navigate
+}
+
+// MODAL
+function modal(title,body,onSave){
+  document.getElementById('mtitle').textContent=title;
+  document.getElementById('mbody').innerHTML=body;
+  document.getElementById('mfoot').innerHTML=`<button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="__save()">Save</button>`;
+  window.__save=onSave;
+  document.getElementById('modal').style.display='flex';
+  setTimeout(()=>{const f=document.querySelector('#mbody .fi');if(f)f.focus();},50);
+}
+function closeModal(){document.getElementById('modal').style.display='none'}
+
+// TOAST
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.innerHTML=`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> ${msg}`;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2400);
+}
+
+// ─────────────────────────────────────────────
+// INIT
+// ─────────────────────────────────────────────
+load();
+</script>
+</body>
+</html>
